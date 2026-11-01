@@ -11,7 +11,7 @@ export function Header() {
   const [isActive, setIsActive] = useState<NavOptions>("ATIVIDADES");
 
   return (
-    <header className="w-full px-4 py-3 shadow-xs">
+    <header className="w-full px-4 py-3 shadow-xs sticky top-0 bg-background/80">
       <nav className="flex items-center justify-between w-full max-w-5xl m-auto">
         <div className="flex items-center gap-6">
           <Link
@@ -24,8 +24,8 @@ export function Header() {
               <Image
                 src="/images/logo.png"
                 alt="logo"
-                width={50}
-                height={50}
+                width={60}
+                height={60}
               ></Image>
               <div className="flex flex-col">
                 <p className="text-[12px] text-[#434655] leading-none">
@@ -40,8 +40,8 @@ export function Header() {
               <Image
                 src="/images/logo.png"
                 alt="logo"
-                width={50}
-                height={50}
+                width={60}
+                height={60}
               ></Image>
               <p className="text-[18px] text-[#131B2E]">FocusFlow</p>
             </div>
