@@ -11,8 +11,8 @@ export function Header() {
   const [isActive, setIsActive] = useState<NavOptions>("ATIVIDADES");
 
   return (
-    <header className="w-full px-4 py-3 shadow-xs sticky top-0 bg-background/80">
-      <nav className="flex items-center justify-between w-full max-w-5xl m-auto">
+    <header className="w-full px-4 py-3 md:px-0 shadow-xs sticky top-0 bg-background/80">
+      <nav className="flex items-center justify-between w-full max-w-240 m-auto">
         <div className="flex items-center gap-6">
           <Link
             href="/"
