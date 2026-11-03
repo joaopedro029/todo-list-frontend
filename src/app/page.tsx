@@ -1,53 +1,30 @@
+"use client";
+
 import { LoaderCircle, TrendingUp } from "lucide-react";
 import { ActivityCard } from "../components/activities/ActivityCard";
 import { PrimaryButton } from "../components/ui/PrimaryButton";
 import { Activity } from "../types/activity";
 import { EmptyCardActivity } from "../components/activities/EmptyCardActivity";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  const activities: Activity[] = [
-    {
-      name: "Desenvolvimento",
-      icon: "Code",
-      tasks: [
-        { name: "Aprender WebSocket", completed: true },
-        { name: "Implementar autenticação JWT", completed: true },
-        { name: "Estudar arquitetura MVC", completed: true },
-        { name: "Criar testes unitários", completed: true },
-        { name: "Estudar Next.js", completed: true },
-      ],
-    },
-    {
-      name: "Estudos",
-      icon: "GraduationCap",
-      tasks: [],
-    },
-    {
-      name: "Atividade física",
-      icon: "Dumbbell",
-      tasks: [
-        { name: "Fazer treino de musculação", completed: true },
-        { name: "Correr por 30 minutos", completed: false },
-        { name: "Alongar após o treino", completed: true },
-        { name: "Beber 2 litros de água", completed: false },
-        { name: "Fazer caminhada", completed: false },
-        { name: "Descansar adequadamente", completed: true },
-      ],
-    },
-    {
-      name: "Organização pessoal",
-      icon: "CalendarDays",
-      tasks: [
-        { name: "Organizar tarefas da semana", completed: true },
-        { name: "Revisar gastos mensais", completed: false },
-        { name: "Organizar ambiente de trabalho", completed: true },
-        { name: "Planejar compromissos", completed: false },
-        { name: "Limpar arquivos desnecessários", completed: false },
-        { name: "Definir metas para o próximo mês", completed: false },
-        { name: "Revisar objetivos pessoais", completed: true },
-      ],
-    },
-  ];
+  const [activities, setActivities] = useState<Activity[]>();
+
+  useEffect(() => {
+    async function getActivities() {
+      const response = await fetch(
+        "http://localhost:3333/app/activity/get-all",
+        {
+          credentials: "include",
+        },
+      );
+
+      const data = await response.json();
+
+      setActivities(data.data);
+    }
+    getActivities();
+  }, []);
 
   return (
     <section className="w-full px-4 max-w-240 md:p-0 mt-8 m-auto">
@@ -99,9 +76,10 @@ export default function Home() {
       </div>
 
       <div className="flex flex-wrap w-full gap-6">
-        {activities.map((item) => (
+        {activities?.map((item) => (
           <ActivityCard
-            key={item.name}
+            key={item.id}
+            id={item.id}
             name={item.name}
             icon={item.icon}
             tasks={item.tasks}
