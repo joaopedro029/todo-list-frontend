@@ -58,7 +58,7 @@ export function Header() {
               Atividades
             </Link>
             <Link
-              href="/"
+              href="/activities/2"
               className={`${isActive === "HOJE" ? " text-[#131B2E] font-semibold bg-[#EAEDFF] rounded-lg" : "font-medium text-[#434655]"}  px-4 py-2 text-[14px]`}
               onClick={() => {
                 setIsActive("HOJE");

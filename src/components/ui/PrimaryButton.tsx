@@ -2,7 +2,7 @@ type propsPrimaryButton = {
   icon?: string;
   name: string;
   verticalPaddingPx: number;
-  horizontalPaddingPx: number;
+  horizontalPaddingPx?: number;
 };
 
 export function PrimaryButton({
@@ -13,8 +13,10 @@ export function PrimaryButton({
 }: propsPrimaryButton) {
   return (
     <button
-      style={{ padding: `${verticalPaddingPx}px ${horizontalPaddingPx}px` }}
-      className={`bg-primary rounded-lg text-[14px] text-white ease-linear hover:bg-primary/95 cursor-pointer`}
+      style={{
+        padding: `${verticalPaddingPx}px ${horizontalPaddingPx ? horizontalPaddingPx : 0}px`,
+      }}
+      className={`${horizontalPaddingPx ? "" : "w-full"}  bg-primary rounded-lg text-[14px] text-white ease-linear hover:bg-primary/95 cursor-pointer`}
     >
       {name}
     </button>
