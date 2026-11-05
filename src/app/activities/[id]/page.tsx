@@ -2,45 +2,34 @@
 
 import { TaskCard } from "@/src/components/tasks/TaskCard";
 import { PrimaryButton } from "@/src/components/ui/PrimaryButton";
+import { useActivity } from "@/src/hooks/queries/use-activities";
 import type { Activity } from "@/src/types/activity";
 import { Task } from "@/src/types/task";
 import { ArrowLeft, Dot, EllipsisVertical, Trash } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default function Activity() {
-  const data: Activity = {
-    name: "Desenvolvimento",
-    icon: "Code",
-    tasks: [
-      {
-        name: "Aprender WebSocket",
-        description: "testando sososxnoixc csuicsuscsug",
-        completed: true,
-      },
-      { name: "Implementar autenticação JWT", completed: true },
-      { name: "Estudar arquitetura MVC", completed: true },
-      { name: "Criar testes unitários", completed: true },
-      { name: "Estudar Next.js", completed: true },
-    ],
-  };
-  const [activity, setActivity] = useState(data);
+export default function ActivityPage() {
+  return (
+    <Suspense fallback={<p>Carregando...</p>}>
+      <ActivityContent />
+    </Suspense>
+  );
+}
 
-  function toggleStatusTask(task: Task) {
-    setActivity((prev) => {
-      return {
-        ...prev,
-        tasks: prev.tasks.map((item2) => {
-          return item2.name === task.name
-            ? { ...item2, completed: !task.completed }
-            : item2;
-        }),
-      };
-    });
-  }
+function ActivityContent() {
+  const params = useParams<{ id: string }>();
+  const id = Number(params.id);
 
-  const completedTasks = activity.tasks?.filter((task) => task.completed);
-  const incompleteTasks = activity.tasks?.filter((task) => !task.completed);
+  const { data: activity, isLoading } = useActivity(id);
+
+  const completedTasks = activity?.tasks?.filter(
+    (task: Task) => task.completed,
+  );
+  const incompleteTasks = activity?.tasks?.filter(
+    (task: Task) => !task.completed,
+  );
 
   return (
     <section className="bg-background w-full px-4 max-w-240 md:p-0 m-auto">
@@ -102,15 +91,15 @@ export default function Activity() {
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <h2>
-            Pendentes <span>{incompleteTasks.length}</span>
+            Pendentes <span>{incompleteTasks?.length}</span>
           </h2>
           <p>Prioridade em execução</p>
         </div>
-        {incompleteTasks?.map((task) => (
+        {incompleteTasks?.map((task: Task) => (
           <TaskCard
             key={task.name}
             task={task}
-            fnToggleStatusTask={toggleStatusTask}
+            fnToggleStatusTask={() => {}}
           ></TaskCard>
         ))}
       </div>
@@ -118,15 +107,15 @@ export default function Activity() {
       <div className="flex flex-col gap-4 mt-8">
         <div className="flex items-center justify-between">
           <h2>
-            Concluídas <span>{completedTasks.length}</span>
+            Concluídas <span>{completedTasks?.length}</span>
           </h2>
           <p>Histórico recente</p>
         </div>
-        {completedTasks?.map((task) => (
+        {completedTasks?.map((task: Task) => (
           <TaskCard
             key={task.name}
             task={task}
-            fnToggleStatusTask={toggleStatusTask}
+            fnToggleStatusTask={() => {}}
           ></TaskCard>
         ))}
       </div>
