@@ -1,30 +1,14 @@
 "use client";
 
-import { LoaderCircle, TrendingUp } from "lucide-react";
+import { TrendingUp } from "lucide-react";
 import { ActivityCard } from "../components/activities/ActivityCard";
 import { PrimaryButton } from "../components/ui/PrimaryButton";
 import { Activity } from "../types/activity";
 import { EmptyCardActivity } from "../components/activities/EmptyCardActivity";
-import { useEffect, useState } from "react";
+import { useActivities } from "../hooks/queries/use-activities";
 
 export default function Home() {
-  const [activities, setActivities] = useState<Activity[]>();
-
-  useEffect(() => {
-    async function getActivities() {
-      const response = await fetch(
-        "http://localhost:3333/app/activity/get-all",
-        {
-          credentials: "include",
-        },
-      );
-
-      const data = await response.json();
-
-      setActivities(data.data);
-    }
-    getActivities();
-  }, []);
+  const { data: activities, isLoading, isError } = useActivities();
 
   return (
     <section className="w-full px-4 max-w-240 md:p-0 mt-8 m-auto">
@@ -76,7 +60,7 @@ export default function Home() {
       </div>
 
       <div className="flex flex-wrap w-full gap-6">
-        {activities?.map((item) => (
+        {activities?.map((item: Activity) => (
           <ActivityCard
             key={item.id}
             id={item.id}

@@ -2,7 +2,7 @@ import { Activity } from "@/src/types/activity";
 import { ArrowRight, ChevronRight, Code, EllipsisVertical } from "lucide-react";
 import Link from "next/link";
 
-export function ActivityCard({ name, icon, tasks }: Activity) {
+export function ActivityCard({ name, icon, tasks, id }: Activity) {
   const tasksCompleted = tasks.filter((task) => task.completed);
   const tasksIncomplete = tasks.filter((task) => !task.completed);
 
@@ -59,7 +59,7 @@ export function ActivityCard({ name, icon, tasks }: Activity) {
         <div className="flex flex-col mt-1 gap-1.5 w-full"></div>
       </div>
       <div className="hidden md:flex mt-8">
-        <Link href="/" className="flex items-center gap-1">
+        <Link href={`/activities/${id}`} className="flex items-center gap-1">
           <p className="text-[#004AC6] text-[14px] font-medium">Ver tarefas</p>
           <ArrowRight color="#004AC6" width={15}></ArrowRight>
         </Link>
