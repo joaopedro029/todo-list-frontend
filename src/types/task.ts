@@ -5,3 +5,9 @@ export type Task = {
   completed: boolean;
   activityId: number;
 };
+
+export type updatedDataType = {
+  name?: string;
+  description?: string;
+  success?: boolean;
+};

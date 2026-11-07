@@ -1,3 +1,6 @@
+"use client";
+
+import { useUpdateTask } from "@/src/hooks/queries/use-tasks";
 import { Task } from "@/src/types/task";
 import { Pen, Trash } from "lucide-react";
 
@@ -7,15 +10,26 @@ type TaskCardProps = {
 };
 
 export function TaskCard({ task, fnToggleStatusTask }: TaskCardProps) {
+  const updateMutation = useUpdateTask();
+
+  function handleToggleStatusTask() {
+    console.log("osdihdsi");
+    const statusTask = !task.completed;
+    updateMutation.mutate({
+      updatedData: {
+        success: statusTask,
+      },
+      id: task.id,
+    });
+  }
+
   return (
     <div className="bg-white px-6 py-4 rounded-xl flex justify-between items-start shadow-xs shadow-gray/0.01">
       <div className="flex items-start gap-4">
         <input
           type="checkbox"
           checked={task.completed}
-          onChange={() => {
-            fnToggleStatusTask(task);
-          }}
+          onChange={handleToggleStatusTask}
         />
         <div>
           <h3
